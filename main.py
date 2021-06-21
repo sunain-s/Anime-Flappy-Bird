@@ -1,4 +1,3 @@
-from typing import ChainMap
 import pygame, sys, random
 
 def draw_floor():
