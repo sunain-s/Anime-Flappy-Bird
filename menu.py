@@ -1,6 +1,6 @@
-import pygame, sys, main
+import pygame, sys, game
 
-def draw_floor(floor_surface, floor_x_pos):
+def draw_floor(screen, SCREEN_WIDTH, floor_surface, floor_x_pos):
     screen.blit(floor_surface, (floor_x_pos, 900))
     screen.blit(floor_surface, (floor_x_pos + SCREEN_WIDTH, 900))
 
@@ -15,16 +15,14 @@ def select_box(surface, colour, char_rect):
     select_rect.center = (char_rect.centerx, char_rect.centery)
     pygame.draw.rect(surface, colour, select_rect, 5)
 
-
-pygame.init()
-clock = pygame.time.Clock()
-SCREEN_WIDTH = 576
-SCREEN_HEIGHT = 1024
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-game_font = pygame.font.Font('04B_19.ttf', 40)
-
-
 def run():
+    pygame.init()
+    clock = pygame.time.Clock()
+    SCREEN_WIDTH = 576
+    SCREEN_HEIGHT = 1024
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    game_font = pygame.font.Font('04B_19.ttf', 40)
+
     bg_surface = pygame.image.load('sprites/background-day.png').convert()
     bg_surface = pygame.transform.scale2x(bg_surface)
 
@@ -89,10 +87,10 @@ def run():
                 char_selected = True
         if start_button.collidepoint(mx, my):
             if char_selected and click:
-                main.run()
+                game.game()
         # floor
         floor_x_pos -= 1
-        draw_floor(floor_surface, floor_x_pos)
+        draw_floor(screen, SCREEN_WIDTH, floor_surface, floor_x_pos)
         if floor_x_pos <= - SCREEN_WIDTH:
             floor_x_pos = 0
 
