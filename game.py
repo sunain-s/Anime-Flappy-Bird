@@ -1,4 +1,5 @@
-import pygame, sys, random, menu
+import pygame, sys, random
+import menu
 
 def draw_floor(screen, SCREEN_WIDTH, floor_surface, floor_x_pos):
     screen.blit(floor_surface, (floor_x_pos, 900))
@@ -75,8 +76,7 @@ def pipe_score_check(score, scoring_active, pipe_list, score_sound):
                 scoring_active = True
     return score
 
-
-def game():
+def game(char_index):
     pygame.init()
     clock = pygame.time.Clock()
     SCREEN_WIDTH = 576
@@ -99,10 +99,16 @@ def game():
     floor_surface = pygame.transform.scale2x(floor_surface)
     floor_x_pos = 0
 
-    image = ['sprites/Light-1.png', 'sprites/Light-2.png', 'sprites/Light-3.png']
-    bird_downflap = pygame.transform.scale2x(pygame.image.load(image[0]).convert_alpha())
-    bird_midflap = pygame.transform.scale2x(pygame.image.load(image[1]).convert_alpha())
-    bird_upflap = pygame.transform.scale2x(pygame.image.load(image[2]).convert_alpha())
+    image = [['sprites/bluebird-downflap.png', 'sprites/bluebird-midflap.png', 'sprites/bluebird-upflap.png'],
+            ['sprites/Naruto-1.png', 'sprites/Naruto-2.png', 'sprites/Naruto-3.png'],
+            ['sprites/L-1.png', 'sprites/L-2.png', 'sprites/L-3.png'],
+            ['sprites/Luffy-1.png', 'sprites/Luffy-2.png', 'sprites/Luffy-3.png'],
+            ['sprites/Light-1.png', 'sprites/Light-2.png', 'sprites/Light-3.png'],
+            ['sprites/Hisoka-1.png', 'sprites/Hisoka-2.png', 'sprites/Hisoka-3.png']
+            ]
+    bird_downflap = pygame.transform.scale2x(pygame.image.load(image[char_index][0]).convert_alpha())
+    bird_midflap = pygame.transform.scale2x(pygame.image.load(image[char_index][1]).convert_alpha())
+    bird_upflap = pygame.transform.scale2x(pygame.image.load(image[char_index][2]).convert_alpha())
     bird_frames = [bird_downflap, bird_midflap, bird_upflap]
     bird_index = 0
     bird_surface = bird_frames[bird_index]
@@ -133,22 +139,23 @@ def game():
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
                     menu.run()
                 if event.key == pygame.K_SPACE and game_active:
                     bird_movement = 0
                     bird_movement -= 10
                     flap_sound.play()
                 if event.key == pygame.K_SPACE and not game_active and timer <= 0:
+                    pipe_list = []
                     timer = 20
                     game_active = True
-                    pipe_list.clear()
                     bird_movement = 0
                     score = 0
                     bird_rect.center = (100, SCREEN_HEIGHT/2)
             if event.type == SPAWN_PIPE:
                 pipe_list.extend(create_pipe(pipe_height, pipe_surface))
             if event.type == BIRD_FLAP:
-                if bird_index < 1:
+                if bird_index < 2:
                     bird_index += 1
                 else:
                     bird_index = 0
