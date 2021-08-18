@@ -1,4 +1,5 @@
-import pygame, sys, game
+import pygame, sys, time
+import loading
 
 def draw_floor(screen, SCREEN_WIDTH, floor_surface, floor_x_pos):
     screen.blit(floor_surface, (floor_x_pos, 900))
@@ -10,6 +11,27 @@ def draw_text(text, font, color, surface, x, y):
     text_rect.center = (x, y)
     surface.blit(text_obj, text_rect)
 
+def character_display_and_select(char_surface, SCREEN_WIDTH, screen, y_pos, mx, my, click, char_selected, char_index):
+    char_rect = char_surface.get_rect(center = (SCREEN_WIDTH/2, y_pos))
+    screen.blit(char_surface, char_rect)
+    if not char_selected:
+        if char_rect.collidepoint(mx, my):
+                select_box(screen, pygame.Color('#ffffff'), char_rect)
+        if click:
+            if char_rect.collidepoint(mx, my):
+                start = time.time()
+                seconds = 1
+                while True:
+                    end = time.time()
+                    elapsed = end - start
+                    if elapsed >= seconds:
+                        char_selected = True
+                        break
+            else:
+                pass
+    if char_selected:
+        loading.run(char_index)
+        
 def select_box(surface, colour, char_rect):
     select_rect = pygame.Rect(char_rect.left - 10, char_rect.top - 10, char_rect.right - char_rect.left + 15, char_rect.bottom - char_rect.top + 15)
     select_rect.center = (char_rect.centerx, char_rect.centery)
@@ -21,11 +43,11 @@ def run():
     SCREEN_WIDTH = 576
     SCREEN_HEIGHT = 1024
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    game_font = pygame.font.Font('04B_19.ttf', 40)
+    game_font = pygame.font.Font('04B_19.ttf', 60)
+    game_font_2 = pygame.font.Font('04B_19.ttf', 24)
 
     bg_surface = pygame.image.load('sprites/background-day.png').convert()
     bg_surface = pygame.transform.scale2x(bg_surface)
-
     floor_surface = pygame.image.load('sprites/base.png').convert()
     floor_surface = pygame.transform.scale2x(floor_surface)
     floor_x_pos = 0
@@ -33,22 +55,17 @@ def run():
     start_button = pygame.Rect(SCREEN_WIDTH/2 - 150, 800, 300, 50)
 
     # characters
-    bird_surface = pygame.transform.scale2x(pygame.image.load('sprites/bluebird-midflap.png').convert_alpha())
-    bird_rect = bird_surface.get_rect(center = (SCREEN_WIDTH/2, 200))
-
+    bird_surface = pygame.transform.scale2x(pygame.image.load('sprites/bluebird-midflap_35x35.png').convert_alpha())
     naruto_surface = pygame.transform.scale2x(pygame.image.load('sprites/naruto-2.png').convert_alpha())
-    naruto_rect = naruto_surface.get_rect(center = (SCREEN_WIDTH/2, 300))
-
     l_surface = pygame.transform.scale2x(pygame.image.load('sprites/L-2.png').convert_alpha())
-    l_rect = l_surface.get_rect(center = (SCREEN_WIDTH/2, 400))
-
+    luffy_surface = pygame.transform.scale2x(pygame.image.load('sprites/Luffy-2.png').convert_alpha())
     light_surface = pygame.transform.scale2x(pygame.image.load('sprites/Light-2.png').convert_alpha())
-    light_rect = light_surface.get_rect(center = (SCREEN_WIDTH/2, 500))
+    hisoka_surface =  pygame.transform.scale2x(pygame.image.load('sprites/Hisoka-2.png').convert_alpha())
+    characters = [bird_surface, naruto_surface, l_surface, luffy_surface, light_surface, hisoka_surface]
 
     click = False
-    char_selected = True
+    char_selected = False
     while True:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -58,37 +75,15 @@ def run():
                     click = True
 
         mx, my = pygame.mouse.get_pos()
-        
         screen.blit(bg_surface, (0, 0))
-        draw_text('Select Character', game_font, (255, 255, 255), screen, SCREEN_WIDTH/2, 100)
-        screen.blit(bird_surface, bird_rect)
-        screen.blit(naruto_surface, naruto_rect)
-        screen.blit(l_surface, l_rect)
-        screen.blit(light_surface, light_rect)
-        pygame.draw.rect(screen, pygame.Color('#a7a69d'), start_button)
-        draw_text('Click to start', game_font, (255, 255, 255), screen, start_button.centerx, start_button.centery)
+        draw_text('Select Avatar', game_font, (255, 255, 255), screen, SCREEN_WIDTH/2, 100)
 
-        
-        if click:
-            if bird_rect.collidepoint(mx, my):
-                select_box(screen, pygame.Color('#a7a69d'), bird_rect)
-                char_selected = True
-        if click:
-            if naruto_rect.collidepoint(mx, my):
-                select_box(screen, pygame.Color('#a7a69d'), naruto_rect)
-                char_selected = True
-        if click:
-            if l_rect.collidepoint(mx, my):
-                select_box(screen, pygame.Color('#a7a69d'), l_rect)
-                char_selected = True
-        if click:
-            if light_rect.collidepoint(mx, my):
-                select_box(screen, pygame.Color('#a7a69d'), light_rect)
-                char_selected = True
-        if start_button.collidepoint(mx, my):
-            if char_selected and click:
-                game.game()
-        # floor
+        for i in range(len(characters)):
+            y_pos = 150 + (100 * (i+1))
+            character_display_and_select(characters[i], SCREEN_WIDTH, screen, y_pos, mx, my, click, char_selected, i)
+
+        # pygame.draw.rect(screen, pygame.Color('#a7a69d'), start_button)
+        draw_text('Click your avatar to start the game', game_font_2, (255, 255, 255), screen, SCREEN_WIDTH/2, 160)
         floor_x_pos -= 1
         draw_floor(screen, SCREEN_WIDTH, floor_surface, floor_x_pos)
         if floor_x_pos <= - SCREEN_WIDTH:
@@ -96,5 +91,6 @@ def run():
 
         pygame.display.update()
         clock.tick(120)
+
 if __name__ == '__main__':
     run()
