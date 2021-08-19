@@ -56,6 +56,17 @@ def score_display(screen, SCREEN_WIDTH, game_font, game_state, score, highscore)
         score_rect = score_surface.get_rect(center = (SCREEN_WIDTH/2, 100))
         screen.blit(score_surface, score_rect)
 
+        file = open('scores.txt', 'a')
+        file.write(';' + str(score))
+        file.close()
+        with open('scores.txt', 'r') as file:
+            scores = []
+            for line in file:
+                scores = line.rstrip('\n').split(';')
+                int_scores = [int(score) for score in scores]
+                sorted_scores = sorted(int_scores, reverse = True)
+                highscore = sorted_scores[0]
+
         highscore_surface = game_font.render(f'Highscore: {int(highscore)}' , True, (255, 255, 255))
         highscore_rect = highscore_surface.get_rect(center = (SCREEN_WIDTH/2, 850))
         screen.blit(highscore_surface, highscore_rect)

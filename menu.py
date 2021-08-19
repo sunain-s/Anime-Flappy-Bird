@@ -51,6 +51,7 @@ def run():
     floor_surface = pygame.image.load('sprites/base.png').convert()
     floor_surface = pygame.transform.scale2x(floor_surface)
     floor_x_pos = 0
+    credit_x_pos = 0
 
     start_button = pygame.Rect(SCREEN_WIDTH/2 - 150, 800, 300, 50)
 
@@ -89,6 +90,10 @@ def run():
         if floor_x_pos <= - SCREEN_WIDTH:
             floor_x_pos = 0
 
+        draw_text('Default Art - samuelcust     Special Thanks To Mei For Custom Art', game_font_2, (255, 255, 255), screen, SCREEN_WIDTH + 500 + credit_x_pos, 975)
+        credit_x_pos -= 1.75
+        if credit_x_pos <= -1500:
+            credit_x_pos = 0
         pygame.display.update()
         clock.tick(120)
 
