@@ -1,12 +1,10 @@
 # Flappy-Bird
-Flappy Bird with Anime avatars  - made in Python using Pygame
+Anime Flappy Bird  - made in Python using Pygame
 
 A modified flappy bird style game, made to teach myself sprite animation and how to make endless side-scroll games. 
 Made based on the following tutorial:
 
 https://www.youtube.com/watch?v=UZg49z76cLw
-
-Expanded upon to add custom features and styles
 
 Art credits:
 ============
@@ -33,3 +31,4 @@ Occasionally replace all data in the 'scores.txt' file with your highscore (e.g.
 - basic physics (gravity) implementation
 - using functions to pass variables between files
 - using functions to minimise code length and maximise readability
+- editing and looping soundtracks using pygame.mixer
