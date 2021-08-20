@@ -142,6 +142,19 @@ def game(char_index):
     score_sound = pygame.mixer.Sound('audio/sfx_point.wav')
 
     timer = 20
+    
+    if char_index != 0:
+        if char_index == 1:
+            bg_music = pygame.mixer.Sound('audio/Naruto.ogg')
+        if char_index == 2:
+            bg_music = pygame.mixer.Sound('audio/L.ogg')
+        if char_index == 3:
+            bg_music = pygame.mixer.Sound('audio/Luffy.ogg')
+        if char_index == 4:
+            bg_music = pygame.mixer.Sound('audio/Light.ogg')
+        if char_index == 5:
+            bg_music = pygame.mixer.Sound('audio/Hisoka.ogg')
+        bg_music.play(-1)
 
     while True:
         for event in pygame.event.get():

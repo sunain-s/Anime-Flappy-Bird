@@ -53,8 +53,6 @@ def run():
     floor_x_pos = 0
     credit_x_pos = 0
 
-    start_button = pygame.Rect(SCREEN_WIDTH/2 - 150, 800, 300, 50)
-
     # characters
     bird_surface = pygame.transform.scale2x(pygame.image.load('sprites/bluebird-midflap_35x35.png').convert_alpha())
     naruto_surface = pygame.transform.scale2x(pygame.image.load('sprites/naruto-2.png').convert_alpha())
@@ -83,7 +81,6 @@ def run():
             y_pos = 150 + (100 * (i+1))
             character_display_and_select(characters[i], SCREEN_WIDTH, screen, y_pos, mx, my, click, char_selected, i)
 
-        # pygame.draw.rect(screen, pygame.Color('#a7a69d'), start_button)
         draw_text('Click your avatar to start the game', game_font_2, (255, 255, 255), screen, SCREEN_WIDTH/2, 160)
         floor_x_pos -= 1
         draw_floor(screen, SCREEN_WIDTH, floor_surface, floor_x_pos)
