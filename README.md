@@ -6,11 +6,13 @@ Made based on the following tutorial:
 
 https://www.youtube.com/watch?v=UZg49z76cLw
 
-Art credits:
+Credits:
 ============
 **Samuel Cust** - default flappy bird art, https://github.com/samuelcust/flappy-bird-assets
 
 **Mei** - anime character sprites
+
+***ALL music used belongs to the appropriate copyright holders***
 
 # How to run
 
